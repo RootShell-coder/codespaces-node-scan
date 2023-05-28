@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [[ -n $1 ]]
+    then
+    if [[ -n $2 ]]
+        then
+            sed -i "s/target ip address/${1}/" /home/node/index.js
+            sed -i "s/target port/${2}/" /home/node/index.js
+            npm start
+            exit
+    fi
+fi
+echo "Help: docker run -ti --rm node-scan 192.168.0.1-254 22-433"

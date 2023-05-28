@@ -2,19 +2,19 @@
 const Evilscan = require('evilscan');
 
 const options = {
-    target:'8.8.8.8',
+    target: 'target ip address',
     //  target:'8.8.8.8-10',
-    port:'22-1000',
+    port: 'target port',
     //  port:'22-10000',
     //  status:'TROU', // Timeout, Refused, Open, Unreachable
     status: 'O',
-    banner:true
+    banner: true
 };
 
 const evilscan = new Evilscan(options);
 
-evilscan.on('result',data => {
-      console.log(data);
+evilscan.on('result', data => {
+    console.log(data);
 });
 
 evilscan.on('error', err => {
