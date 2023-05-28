@@ -1,6 +1,6 @@
 # Node-scan
 
-`docker run -ti --rm rootshellcoder/node-scan <ip or pool> <port or pool>`
+`docker run -ti --rm rootshellcoder/node-scan <ip or pool> <port or range>`
 
 example
 
