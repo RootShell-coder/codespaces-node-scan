@@ -1,5 +1,7 @@
 # Node-scan
 
+[![node-scan](https://github.com/RootShell-coder/codespaces-node-scan/actions/workflows/docker-image.yml/badge.svg)](https://github.com/RootShell-coder/codespaces-node-scan/actions/workflows/docker-image.yml)
+
 `docker run -ti --rm rootshellcoder/node-scan <ip or pool> <port or range>`
 
 example
