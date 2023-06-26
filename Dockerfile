@@ -1,7 +1,7 @@
 FROM node:latest
 
-RUN apt update \
-    && apt upgrade \
+RUN apt-get update \
+    && apt upgrade -y \
     && npm install -g npm@latest
 WORKDIR /home/node
 COPY .. /home/node
