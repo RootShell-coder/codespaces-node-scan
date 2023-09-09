@@ -7,6 +7,6 @@ RUN set -eux; \
     chmod +x /usr/sbin/entrypoint;
 USER node-scan:node-scan
 WORKDIR /home/node-scan
-COPY --chown=node-scan:node-scan index.js package.json .
+COPY --chown=node-scan:node-scan index.js package.json ./
 RUN npm update
 ENTRYPOINT [ "entrypoint" ]
