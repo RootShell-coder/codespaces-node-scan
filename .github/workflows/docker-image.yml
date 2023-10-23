@@ -24,7 +24,7 @@ jobs:
         run: docker build -t tst -f docker/Dockerfile .
       - name: Test
         run: |
-          docker run -i --rm tst:${VERSION} 8.8.8.8 53 | egrep "^\{" > check.txt
+          docker run -i --rm tst:${VERSION} 8.8.8.8 53 | grep "ip" > check.txt
           docker rmi tst:{VERSION}
           sudo apt-get update && sudo apt-get install bind9-utils dnsutils -y
           dig @8.8.8.8 A google.com +short >> check.txt
