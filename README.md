@@ -18,7 +18,7 @@ net_scan:
   tags:
     - docker-runner
   variables:
-    NET: 192.168.100.1-254
+    NETWORKS_SCAN: '192.168.100.2-254, 192.168.200.2-254'
     PORT: 23
   only:
     refs:

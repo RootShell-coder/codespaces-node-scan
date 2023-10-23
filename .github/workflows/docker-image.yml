@@ -26,7 +26,7 @@ jobs:
         run: |
           docker run -i --rm tst:${VERSION} 8.8.8.8 53 | egrep "^{" > check.txt
           docker rmi tst:{VERSION}
-          apt-get update && sudo apt-get install bind9-utils dnsutils -y
+          sudo apt-get update && sudo apt-get install bind9-utils dnsutils -y
           dig @8.8.8.8 A google.com +short >> check.txt
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
