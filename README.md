@@ -23,8 +23,6 @@ net_scan:
   only:
     refs:
       - master
-  before_script:
-    - apk update && apk add bash grep
   script:
     - |+
       rm discovery_ip/nets.txt && touch discovery_ip/nets.txt
