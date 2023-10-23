@@ -20,10 +20,9 @@ jobs:
     runs-on: [ ubuntu-latest ]
     steps:
       - uses: actions/checkout@v3
-      - name: Build
-        run: docker build -t tst:${VERSION} -f docker/Dockerfile .
-      - name: Test
+      - name: Build test
         run: |
+          docker build -t tst:${VERSION} -f docker/Dockerfile .
           docker run -i --rm tst:${VERSION} 8.8.8.8 53 > check.txt
           docker rmi tst:{VERSION}
       - name: Commit changes
