@@ -22,16 +22,15 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build test
         run: |
-          docker build -t tst:${VERSION} -f docker/Dockerfile .
-          docker run -i --rm tst:${VERSION} 8.8.8.8 53 > check.txt
-          docker rmi tst:{VERSION}
+          docker build -t tst:${GITHUB_SHA::5} -f docker/Dockerfile .
+          docker images | grep ${GITHUB_SHA::5} > version.txt
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
           author_name: RootShell-coder
           author_email: Root.Shelling@gmail.com
           message: 'upd'
-          add: 'check*'
+          add: 'version.*'
 
   push:
     needs: [ test ]
