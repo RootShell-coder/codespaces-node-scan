@@ -1,5 +1,4 @@
 FROM node:current-alpine
-
 COPY docker/entrypoint /usr/sbin
 RUN set -eux; \
     apk add --update --no-cache \
