@@ -1,7 +1,8 @@
 name: Node-scan
+
 on:
   schedule:
-    - cron: '00 5 * * *'
+    - cron: '0 5 * * *'
   push:
     branches: ["master"]
     paths:
@@ -12,43 +13,42 @@ on:
       - 'docker/**'
 
 env:
-  IMAGE_NAME: "node-scan"
-  VERSION: "latest"
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  test:
-    runs-on: [ ubuntu-latest ]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Build test
-        run: |
-          docker build -t tst:${GITHUB_SHA::5} -f docker/Dockerfile .
-          docker images | grep ${GITHUB_SHA::5} > version.txt
-      - name: Commit changes
-        uses: EndBug/add-and-commit@v9
-        with:
-          author_name: RootShell-coder
-          author_email: Root.Shelling@gmail.com
-          message: 'upd'
-          add: 'version.*'
+  build:
 
-  push:
-    needs: [ test ]
-    name: Publish to Docker Hub
-    runs-on: [ ubuntu-latest ]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Build image
-        run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${IMAGE_NAME}:${GITHUB_SHA::5} -f docker/Dockerfile .
-          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/${IMAGE_NAME}:${GITHUB_SHA::5} ${{ secrets.DOCKERHUB_USERNAME }}/${IMAGE_NAME}:${VERSION}
-      - name: Login to Docker Hub
-        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-      - name: Push Image to Docker Hub
-        run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${IMAGE_NAME}:${GITHUB_SHA::5}
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${IMAGE_NAME}:${VERSION}
-      - name: Delete images
-        run: |
-          docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/${IMAGE_NAME}:${GITHUB_SHA::5}
-          docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/${IMAGE_NAME}:${VERSION}
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          platforms: linux/amd64,linux/arm64
+          context: docker
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
