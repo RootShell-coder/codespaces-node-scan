@@ -1,5 +1,5 @@
 FROM node:current-alpine
-COPY docker/entrypoint /usr/sbin
+COPY entrypoint /usr/sbin
 RUN set -eux; \
   apk add --update --no-cache \
   bash \
@@ -10,6 +10,6 @@ RUN set -eux; \
   chmod +x /usr/sbin/entrypoint;
 USER node-scan:node-scan
 WORKDIR /home/node-scan
-COPY --chown=node-scan:node-scan docker/index.js docker/package.json ./
+COPY --chown=node-scan:node-scan index.js package.json ./
 RUN npm update
 ENTRYPOINT [ "entrypoint" ]
