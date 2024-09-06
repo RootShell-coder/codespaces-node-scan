@@ -14,7 +14,7 @@ help
 
 output
 
-```
+```bash
 Node-scan CI component usage:
 Help: codespaces-node-scan --help or empty
 Scan example target ports: codespaces-node-scan 8.8.8.8 53,443
@@ -27,6 +27,7 @@ scan host and port
 `docker run -i --rm ghcr.io/rootshell-coder/codespaces-node-scan:latest 8.8.8.8 53`
 
 output
+
 ```json
 [
   {
