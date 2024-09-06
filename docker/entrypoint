@@ -1,13 +1,26 @@
 #!/bin/ash
-
-if [[ -n $1 ]]
+if [ -z "$1" ] || [ "$1" = "--help" ]
+  then
+  echo "Node-scan CI component usage:"
+  echo "Help: codespaces-node-scan --help or empty"
+  echo "Scan example target host and ports: codespaces-node-scan 8.8.8.8 53,443"
+  echo "Scan example range hosts and port: codespaces-node-scan 192.168.0.2-254 80"
+  echo "Scan example range hosts and ports: codespaces-node-scan 192.168.0.27-192.168.0.254 22-443"
+  exit
+fi
+if [ -n "$1" ]
     then
-    if [[ -n $2 ]]
+    if [ -n "$2" ]
         then
-            sed -i "s/target ip address/${1}/" /home/node-scan/index.js
-            sed -i "s/target port/${2}/" /home/node-scan/index.js
-            npm start
+            sed -i "s/target ip address/${1}/" /home/node-scan/index.js 2>/dev/null
+            sed -i "s/target port/${2}/" /home/node-scan/index.js 2>/dev/null
+            npm start > /dev/null 2>&1
+            if [ -f ./result.json ]
+            then
+                cat ./result.json
+            else
+                echo -e "[\n  {\n    \"result\": \"error\"\n  }\n]"
+            fi
             exit
     fi
 fi
-echo "Help: docker run -ti --rm node-scan 192.168.0.1-254 22-433"
