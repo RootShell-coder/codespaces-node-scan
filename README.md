@@ -45,5 +45,6 @@ output
 
 ```bash
 git clone https://github.com/RootShell-coder/codespaces-node-scan.git .
+cd docker
 docker build -t node-scan -f docker/Dockerfile .
 ```
