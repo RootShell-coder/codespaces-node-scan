@@ -95,7 +95,7 @@ gitlab:get_router:
 
 ---
 
-### This can be used for ansible to form a inventories/hosts.yml file in text task.
+### This can be used for ansible to form a inventories/hosts.yml file in next task.
 
 ```yml
 gitlab:lint:
