@@ -108,7 +108,7 @@ gitlab:lint:
       echo "---" > inventories/hosts.yml
       echo "all:" >> inventories/hosts.yml
       echo "  children:" >> inventories/hosts.yml
-      echo "    keenetic:" >> inventories/hosts.yml
+      echo "    dynamic:" >> inventories/hosts.yml
       echo "      hosts:" >> inventories/hosts.yml
       while IFS= read -r ip; do
         echo "        ${ip}:" >> inventories/hosts.yml
