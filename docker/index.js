@@ -13,7 +13,6 @@ const options = {
 
 const evilscan = new Evilscan(options);
 
-
 const fs = require('fs');
 const results = [];
 
@@ -26,7 +25,6 @@ evilscan.on('done', () => {
     const data = [first].concat(results);
     fs.writeFileSync('result.json', JSON.stringify(data, null, 2) + '\n');
 });
-
 
 evilscan.on('error', err => {
     throw new Error(data.toString());
